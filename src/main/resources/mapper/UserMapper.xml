@@ -181,7 +181,7 @@
       </if>
     </trim>
   </insert>
-    <select id="selectLogin" resultType="com.dy.mmall.bean.User">
+    <select id="selectLogin" resultMap="BaseResultMap">
         select <include refid="Base_Column_List"/> from mmall_user
         where username = #{userName};
     </select>
@@ -201,7 +201,7 @@
         SELECT count(1) from mmall_user
         where username=#{username} and question = #{question} and answer = #{answer};
     </select>
-  <select id="selectByPrimaryKey" resultType="com.dy.mmall.bean.User">
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap">
     select <include refid="Base_Column_List" />
     from mmall_user
     where id = #{id}

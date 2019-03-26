@@ -1,8 +1,10 @@
 package com.dy.mmall;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+@MapperScan("com.dy.mmall.dao")
 @SpringBootApplication
 public class MmallApplication {
 
