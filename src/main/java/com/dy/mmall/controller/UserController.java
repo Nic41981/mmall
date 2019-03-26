@@ -6,7 +6,6 @@ import com.dy.mmall.common.ResponseCode;
 import com.dy.mmall.common.ServerResponse;
 import com.dy.mmall.service.UserService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,8 +27,8 @@ public class UserController {
      * 登录
      */
     @RequestMapping(value = "/login",method = RequestMethod.POST)
-    public ServerResponse<User> login(String username, String password, HttpSession session){
-        ServerResponse<User> response = userService.login(username,password);
+    public ServerResponse login(String username, String password, HttpSession session){
+        ServerResponse response = userService.login(username,password);
         if(response.isSuccess()){
             session.setAttribute(Const.CURRENT_USER,response.getData());
         }
@@ -128,9 +127,9 @@ public class UserController {
         }
         user.setId(currentUser.getId());
         user.setUsername(currentUser.getUsername());
-        ServerResponse<User> response = userService.updateInformation(user);
+        ServerResponse response = userService.updateInformation(user);
         if(response.isSuccess()){
-            response.getData().setUsername(currentUser.getUsername());
+            ((User)response.getData()).setUsername(currentUser.getUsername());
             session.setAttribute(Const.CURRENT_USER,response.getData());
         }
         return response;

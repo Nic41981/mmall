@@ -1,7 +1,6 @@
 package com.dy.mmall.dao;
 
 import com.dy.mmall.bean.User;
-
 import org.apache.ibatis.annotations.Param;
 
 public interface UserMapper {
