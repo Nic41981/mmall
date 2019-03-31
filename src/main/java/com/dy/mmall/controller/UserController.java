@@ -41,7 +41,7 @@ public class UserController {
     @RequestMapping(value = "/logout",method = RequestMethod.POST)
     public ServerResponse logout(HttpSession session){
         session.removeAttribute(Const.CURRENT_USER);
-        return ServerResponse.createBySuccess();
+        return ServerResponse.createBySuccess("退出成功");
     }
 
 

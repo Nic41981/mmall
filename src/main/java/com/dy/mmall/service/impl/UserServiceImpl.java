@@ -27,7 +27,6 @@ public class UserServiceImpl implements UserService {
     public ServerResponse login(String username, String password) {
         User user = userMapper.selectLogin(username);
         if (user != null && BCrypt.checkpw(password,user.getPassword())){
-            System.out.println(user);
             return ServerResponse.createBySuccess("登陆成功",user);
         }
         return ServerResponse.createByError("用户名不存在或密码错误");

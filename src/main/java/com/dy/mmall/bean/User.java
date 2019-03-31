@@ -60,6 +60,7 @@ public class User {
      *
      * @mbg.generated Mon Mar 18 16:37:36 CST 2019
      */
+    @JsonIgnore
     private String question;
 
     /**
@@ -69,6 +70,7 @@ public class User {
      *
      * @mbg.generated Mon Mar 18 16:37:36 CST 2019
      */
+    @JsonIgnore
     private String answer;
 
     /**
