@@ -20,6 +20,10 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
+  <sql id="Base_Column_List" >
+    id, category_id, name, subtitle, main_image, sub_images, detail, price, stock, status,
+    create_time, update_time
+  </sql>
   <insert id="insert" parameterType="com.dy.mmall.bean.Product">
     <!--
       WARNING - @mbg.generated
@@ -121,4 +125,100 @@
       </if>
     </trim>
   </insert>
+  <update id="updateByPrimaryKeySelective">
+    update mmall_product
+    <set >
+      <if test="categoryId != null" >
+        category_id = #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="subtitle != null" >
+        subtitle = #{subtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="mainImage != null" >
+        main_image = #{mainImage,jdbcType=VARCHAR},
+      </if>
+      <if test="subImages != null" >
+        sub_images = #{subImages,jdbcType=VARCHAR},
+      </if>
+      <if test="detail != null" >
+        detail = #{detail,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="stock != null" >
+        stock = #{stock,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = now(),
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey">
+    update mmall_product
+    set category_id = #{categoryId,jdbcType=INTEGER},
+        name = #{name,jdbcType=VARCHAR},
+        subtitle = #{subtitle,jdbcType=VARCHAR},
+        main_image = #{mainImage,jdbcType=VARCHAR},
+        sub_images = #{subImages,jdbcType=VARCHAR},
+        detail = #{detail,jdbcType=VARCHAR},
+        price = #{price,jdbcType=DECIMAL},
+        stock = #{stock,jdbcType=INTEGER},
+        status = #{status,jdbcType=INTEGER},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        update_time = now()
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <delete id="deleteByPrimaryKey">
+    delete from mmall_product
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <select id="selectByPrimaryKey" resultType="com.dy.mmall.bean.Product">
+    select <include refid="Base_Column_List" />
+    from mmall_product
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectList" resultType="com.dy.mmall.bean.Product">
+    SELECT <include refid="Base_Column_List"/>
+    from mmall_product
+    ORDER BY id asc
+  </select>
+  <select id="selectByNameAndProductId" resultType="com.dy.mmall.bean.Product">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from mmall_product
+    <where>
+      <if test="productName != null">
+        and name like #{productName}
+      </if>
+      <if test="productId != null">
+        and id = #{productId}
+      </if>
+    </where>
+  </select>
+  <select id="selectByNameAndCategoryIds" resultType="com.dy.mmall.bean.Product">
+    SELECT
+    <include refid="Base_Column_List"></include>
+    from mmall_product
+    where status = 1
+    <if test="productName != null">
+      and name like #{productName}
+    </if>
+    <if test="categoryIdList != null" >
+      and category_id in
+      <foreach item="item" index="index" open="(" separator="," close=")" collection="categoryIdList">
+        #{item}
+      </foreach>
+    </if>
+  </select>
 </mapper>

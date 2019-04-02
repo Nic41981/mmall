@@ -8,6 +8,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +26,7 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryMapper categoryMapper;
 
     public ServerResponse addCategory(String categoryName,Integer parentId){
-        if(parentId == null || categoryName == null || categoryName.length() <= 0){
+        if(parentId == null || StringUtils.isBlank(categoryName)){
             return ServerResponse.createByError("添加品类参数错误");
         }
 
@@ -42,7 +43,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     public ServerResponse updateCategoryName(Integer categoryId,String categoryName){
-        if(categoryId == null || categoryName == null || categoryName.length() <= 0){
+        if(categoryId == null || StringUtils.isBlank(categoryName)){
             return ServerResponse.createByError("更新品类参数错误");
         }
         Category category = new Category();
@@ -68,7 +69,7 @@ public class CategoryServiceImpl implements CategoryService {
     /**
      * 递归查询本节点的id及孩子节点的id
      */
-    public ServerResponse selectCategoryAndChildrenById(Integer categoryId){
+    public ServerResponse<List<Integer>> selectCategoryAndChildrenById(Integer categoryId){
         Set<Category> categorySet = Sets.newHashSet();
         findChildCategory(categorySet,categoryId);
 

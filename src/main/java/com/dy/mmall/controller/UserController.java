@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
  */
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-@RequestMapping("/user")
+@RequestMapping("/user/")
 public class UserController {
 
     private final UserService userService;
@@ -26,7 +26,7 @@ public class UserController {
     /**
      * 登录
      */
-    @RequestMapping(value = "/login",method = RequestMethod.POST)
+    @RequestMapping(value = "login.do",method = RequestMethod.POST)
     public ServerResponse login(String username, String password, HttpSession session){
         ServerResponse response = userService.login(username,password);
         if(response.isSuccess()){
@@ -38,7 +38,7 @@ public class UserController {
     /**
      * 登出
      */
-    @RequestMapping(value = "/logout",method = RequestMethod.POST)
+    @RequestMapping(value = "logout.do",method = RequestMethod.POST)
     public ServerResponse logout(HttpSession session){
         session.removeAttribute(Const.CURRENT_USER);
         return ServerResponse.createBySuccess("退出成功");
@@ -48,7 +48,7 @@ public class UserController {
     /**
      * 注册
      */
-    @RequestMapping(value = "/register",method = RequestMethod.POST)
+    @RequestMapping(value = "register.do",method = RequestMethod.POST)
     public ServerResponse register(User user){
         return userService.register(user);
     }
@@ -57,7 +57,7 @@ public class UserController {
     /**
      * 唯一性检查
      */
-    @RequestMapping(value = "/valid",method = RequestMethod.GET)
+    @RequestMapping(value = "check_valid.do",method = RequestMethod.GET)
     public ServerResponse checkValid(String str, String type){
         return userService.checkValid(str,type);
     }
@@ -66,7 +66,7 @@ public class UserController {
     /**
      * 获取用户信息
      */
-    @RequestMapping(value = "/info",method = RequestMethod.GET)
+    @RequestMapping(value = "get_user_info.do",method = RequestMethod.GET)
     public ServerResponse getUserInfo(HttpSession session){
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if(user != null){
@@ -79,7 +79,7 @@ public class UserController {
     /**
      * 获取用户问题
      */
-    @RequestMapping(value = "/forget/question",method = RequestMethod.GET)
+    @RequestMapping(value = "forget_get_question.do",method = RequestMethod.GET)
     public ServerResponse forgetGetQuestion(String username){
         return userService.selectQuestion(username);
     }
@@ -88,7 +88,7 @@ public class UserController {
     /**
      * 验证用户答案
      */
-    @RequestMapping(value = "/forget/answer",method = RequestMethod.POST)
+    @RequestMapping(value = "forget_check_answer.do",method = RequestMethod.POST)
     public ServerResponse forgetCheckAnswer(String username,String question,String answer){
         return userService.checkAnswer(username,question,answer);
     }
@@ -97,7 +97,7 @@ public class UserController {
     /**
      * 重置用户密码
      */
-    @RequestMapping(value = "/forget/reset",method = RequestMethod.POST)
+    @RequestMapping(value = "forget_reset_password.do",method = RequestMethod.POST)
     public ServerResponse forgetRestPassword(String username,String passwordNew,String forgetToken){
         return userService.forgetResetPassword(username,passwordNew,forgetToken);
     }
@@ -106,7 +106,7 @@ public class UserController {
     /**
      * 设置用户密码
      */
-    @RequestMapping(value = "/reset_password",method = RequestMethod.POST)
+    @RequestMapping(value = "reset_password.do",method = RequestMethod.POST)
     public ServerResponse resetPassword(HttpSession session,String passwordOld,String passwordNew){
         User user = (User)session.getAttribute(Const.CURRENT_USER);
         if(user == null){
@@ -119,7 +119,7 @@ public class UserController {
     /**
      * 修改用户信息
      */
-    @RequestMapping(value = "/info",method = RequestMethod.PUT)
+    @RequestMapping(value = "update_information.do",method = RequestMethod.PUT)
     public ServerResponse update_information(HttpSession session, User user){
         User currentUser = (User)session.getAttribute(Const.CURRENT_USER);
         if(currentUser == null){
@@ -138,7 +138,7 @@ public class UserController {
     /**
      * 更新用户信息
      */
-    @RequestMapping(value = "/info/update",method = RequestMethod.GET)
+    @RequestMapping(value = "get_information.do",method = RequestMethod.GET)
     public ServerResponse get_information(HttpSession session){
         User currentUser = (User)session.getAttribute(Const.CURRENT_USER);
         if(currentUser == null){
